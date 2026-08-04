@@ -89,11 +89,11 @@ fi
 ##############################################
 # Webmin
 ##############################################
-
 if true; then
-    curl -fsSL -o /tmp/webmin-setup-repo.sh \
+    # O -k ignora a checagem do certificado expirado no curl
+    curl -kfsSL -o /tmp/webmin-setup-repo.sh \
         https://raw.githubusercontent.com/webmin/webmin/master/webmin-setup-repo.sh
-    sh /tmp/webmin-setup-repo.sh
+    sh /tmp/webmin-setup-repo.sh -f
     apt update
     apt install -y --install-recommends webmin
     if command -v ufw >/dev/null 2>&1; then
@@ -103,7 +103,6 @@ if true; then
     systemctl enable webmin
     systemctl start webmin
 fi
-
 ##############################################
 # Estrutura AgentOS
 ##############################################
