@@ -86,23 +86,7 @@ if true; then
     docker compose version
 fi
 
-##############################################
-# Webmin
-##############################################
-if true; then
-    # O -k ignora a checagem do certificado expirado no curl
-    curl -kfsSL -o /tmp/webmin-setup-repo.sh \
-        https://raw.githubusercontent.com/webmin/webmin/master/webmin-setup-repo.sh
-    sh /tmp/webmin-setup-repo.sh -f
-    apt update
-    apt install -y --install-recommends webmin
-    if command -v ufw >/dev/null 2>&1; then
-        ufw allow 10000/tcp || true
-        ufw reload || true
-    fi
-    systemctl enable webmin
-    systemctl start webmin
-fi
+
 ##############################################
 # Estrutura AgentOS
 ##############################################
@@ -155,7 +139,7 @@ hostname -I || true
 docker --version
 docker compose version
 
-systemctl status webmin --no-pager || true
+
 
 
 tree -L 2 "$AGENT_DIR" || true
@@ -178,8 +162,6 @@ echo "Usuário SSH: root"
 echo "Porta SSH: $SSH_PORT"
 echo "Workspace: $BASE_DIR"
 echo "AgentOS: $AGENT_DIR"
-if true; then
-    echo "Webmin: https://$HOST_IP:10000"
-fi
+
 echo
 echo "Bootstrap finalizado com sucesso."
